@@ -33,7 +33,8 @@ class CloudCostGym(gym.Env):
         self.reset(seed=seed)
 
     def _get_obs(self):
-        demand = self.workload[self.t]
+        idx = min(self.t, len(self.workload) - 1)
+        demand = self.workload[idx]
         capacity = self.instances * self.capacity_per_instance
         utilization = min(1.0, demand / capacity) if capacity > 0 else 1.0
         return np.array([demand, self.instances, utilization, self.latency], dtype=np.float32)
@@ -49,6 +50,9 @@ class CloudCostGym(gym.Env):
         return self._get_obs(), {}
 
     def step(self, action):
+        # If episode already done, return terminal observation without advancing
+        if self.t >= self.n_steps:
+            return self._get_obs(), 0.0, True, False, {}
         # Handle scaling
         if action == 0:   # scale down
             self.instances = max(1, self.instances - 1)
@@ -62,7 +66,9 @@ class CloudCostGym(gym.Env):
         self.pending = [p for p in self.pending if p > 0]
 
         # Current demand
-        d = self.workload[self.t]
+        # Guard against out-of-range access
+        idx = min(self.t, len(self.workload) - 1)
+        d = self.workload[idx]
         cap = self.instances * self.capacity_per_instance
         util = d / cap if cap > 0 else 1.0
 
