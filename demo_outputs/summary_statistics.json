@@ -1,0 +1,61 @@
+{
+  "workload_types": [
+    "steady"
+  ],
+  "strategies": {
+    "workload_aware": {
+      "avg_cost": 693.2864711323183,
+      "avg_sla_rate": 0.11444444444444446,
+      "avg_latency": 174.10234567901236,
+      "avg_efficiency": 0.5852054456937925,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "rl_steady": {
+      "avg_cost": 600.0,
+      "avg_sla_rate": 1.0,
+      "avg_latency": 379.99999999999994,
+      "avg_efficiency": 0.0,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "reliability_optimized": {
+      "avg_cost": 1169.238310585498,
+      "avg_sla_rate": 0.013333333333333334,
+      "avg_latency": 127.83833333333332,
+      "avg_efficiency": 0.46542607301435185,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "threshold": {
+      "avg_cost": 1383.3764568688232,
+      "avg_sla_rate": 0.014444444444444446,
+      "avg_latency": 127.85722222222222,
+      "avg_efficiency": 0.3944765409668485,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "cost_optimized": {
+      "avg_cost": 35.41173333333332,
+      "avg_sla_rate": 0.012222222222222223,
+      "avg_latency": 140.37653703703702,
+      "avg_efficiency": 0.5866387948930627,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "hybrid": {
+      "avg_cost": 1264.1845027556872,
+      "avg_sla_rate": 0.013333333333333334,
+      "avg_latency": 127.74611111111112,
+      "avg_efficiency": 0.4320383730603064,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    }
+  },
+  "best_performers": {
+    "lowest_cost": "cost_optimized",
+    "lowest_sla_rate": "cost_optimized",
+    "highest_efficiency": "cost_optimized"
+  },
+  "overall_metrics": {}
+}

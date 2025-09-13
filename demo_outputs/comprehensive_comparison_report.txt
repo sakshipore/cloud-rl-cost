@@ -1,0 +1,23 @@
+================================================================================
+CLOUD COST OPTIMIZATION - STRATEGY COMPARISON REPORT
+================================================================================
+
+WORKLOAD TYPE: STEADY
+----------------------------------------
+Strategy            Total Cost          Sla Violation Rate  Avg Latency         Resource Efficiency 
+----------------------------------------------------------------------------------------------------
+cost_optimized      $35.41              1.2%                140.4ms             0.587               
+reliability_optimized$1169.24            1.3%                127.8ms             0.465               
+hybrid              $1264.18            1.3%                127.7ms             0.432               
+workload_aware      $693.29             11.4%               174.1ms             0.585               
+threshold           $1383.38            1.4%                127.9ms             0.394               
+rl_steady           $600.00             100.0%              380.0ms             0.000               
+
+OVERALL SUMMARY
+----------------------------------------
+Best Total Cost: cost_optimized
+Best Sla Violation Rate: cost_optimized
+Best Avg Latency: hybrid
+Best Resource Efficiency: cost_optimized
+
+================================================================================
