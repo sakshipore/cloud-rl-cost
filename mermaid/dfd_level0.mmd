@@ -1,0 +1,55 @@
+flowchart TD
+    %% External Entities
+    User[👤 User/Researcher]
+    WorkloadGen[📊 Workload Generator]
+    CloudProvider[☁️ Cloud Service Provider]
+    MetricsDB[📈 Performance Metrics Database]
+    
+    %% Main Process
+    System[🔄 Cloud RL Cost Optimization System<br/>Process 0]
+    
+    %% Data Stores
+    D1[(D1: Workload Patterns)]
+    D2[(D2: Service Configurations)]
+    D3[(D3: Training Data)]
+    D4[(D4: Evaluation Results)]
+    D5[(D5: Experiment Logs)]
+    
+    %% Input Flows
+    User -->|Workload Parameters| System
+    User -->|Experiment Configuration| System
+    User -->|Training Parameters| System
+    CloudProvider -->|Service Characteristics| System
+    WorkloadGen -->|Synthetic Workload Data| System
+    
+    %% Output Flows
+    System -->|Optimization Results| User
+    System -->|Performance Reports| User
+    System -->|Cost Analysis| User
+    System -->|SLA Violation Reports| User
+    System -->|Evaluation Metrics| MetricsDB
+    
+    %% Data Store Flows
+    System -->|Workload Data| D1
+    System -->|Service Data| D2
+    System -->|Training Data| D3
+    System -->|Evaluation Results| D4
+    System -->|Experiment Data| D5
+    
+    D1 -->|Workload Patterns| System
+    D2 -->|Service Configurations| System
+    D3 -->|Trained Models| System
+    D4 -->|Historical Results| System
+    D5 -->|Experiment History| System
+    
+    %% Styling
+    classDef externalEntity fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef process fill:#e8f5e8,stroke:#388e3c,stroke-width:3px
+    classDef dataStore fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef inputFlow fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef outputFlow fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px
+    classDef dataFlow fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    
+    class User,WorkloadGen,CloudProvider,MetricsDB externalEntity
+    class System process
+    class D1,D2,D3,D4,D5 dataStore

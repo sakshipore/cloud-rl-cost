@@ -1,0 +1,86 @@
+classDiagram
+    %% Core Environment
+    class CloudEnvironment {
+        -services: Dict
+        -instances: Dict
+        -workload: Array
+        +reset()
+        +step(action)
+        +get_state()
+    }
+
+    class CloudService {
+        -name: String
+        -capacity: int
+        -reliability: float
+        +calculate_cost()
+    }
+
+    %% RL Components
+    class DQNAgent {
+        -model: DQN
+        +train()
+        +predict(state)
+    }
+
+    class Evaluator {
+        +evaluate_agent()
+        +compare_strategies()
+        +generate_report()
+    }
+
+    %% Baseline Strategies
+    class RuleBasedAgent {
+        <<abstract>>
+        +predict(state)
+    }
+
+    class CostOptimizedAgent {
+        +predict(state)
+    }
+
+    class ReliabilityOptimizedAgent {
+        +predict(state)
+    }
+
+    class HybridAgent {
+        +predict(state)
+    }
+
+    %% Utility
+    class WorkloadGenerator {
+        +generate_workload()
+    }
+
+    class ExperimentRunner {
+        +run_experiment()
+    }
+
+    %% Relationships
+    CloudEnvironment --> CloudService : uses
+    DQNAgent --> CloudEnvironment : trains on
+    Evaluator --> CloudEnvironment : evaluates on
+    Evaluator --> RuleBasedAgent : compares with
+    RuleBasedAgent <|-- CostOptimizedAgent
+    RuleBasedAgent <|-- ReliabilityOptimizedAgent
+    RuleBasedAgent <|-- HybridAgent
+    ExperimentRunner --> DQNAgent : uses
+    ExperimentRunner --> Evaluator : uses
+    CloudEnvironment --> WorkloadGenerator : uses
+
+    %% Styling
+    classDef envClass fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef rlClass fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef baselineClass fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef utilClass fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+
+    class CloudEnvironment envClass
+    class CloudService envClass
+    class DQNAgent rlClass
+    class Evaluator rlClass
+    class RuleBasedAgent baselineClass
+    class CostOptimizedAgent baselineClass
+    class ReliabilityOptimizedAgent baselineClass
+    class HybridAgent baselineClass
+    class WorkloadGenerator utilClass
+    class ExperimentRunner utilClass

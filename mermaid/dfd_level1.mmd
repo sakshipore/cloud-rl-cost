@@ -1,0 +1,81 @@
+flowchart TD
+    %% External Entities
+    User[👤 User/Researcher]
+    WorkloadGen[📊 Workload Generator]
+    CloudProvider[☁️ Cloud Service Provider]
+    MetricsDB[📈 Performance Metrics Database]
+    
+    %% Main Processes
+    P1[1.0: Workload Generation<br/>& Environment Setup]
+    P2[2.0: RL Model Training]
+    P3[3.0: Baseline Strategy<br/>Implementation]
+    P4[4.0: Performance Evaluation<br/>& Comparison]
+    P5[5.0: Results Analysis<br/>& Reporting]
+    
+    %% Data Stores
+    D1[(D1: Workload Patterns)]
+    D2[(D2: Service Configurations)]
+    D3[(D3: Training Data)]
+    D4[(D4: Evaluation Results)]
+    D5[(D5: Experiment Logs)]
+    
+    %% External to Process Flows
+    User -->|Workload Parameters| P1
+    User -->|Training Parameters| P2
+    User -->|Strategy Parameters| P3
+    User -->|Evaluation Criteria| P4
+    User -->|Report Requirements| P5
+    
+    CloudProvider -->|Service Characteristics| P1
+    WorkloadGen -->|Synthetic Workload Data| P1
+    
+    %% Process to External Flows
+    P5 -->|Optimization Results| User
+    P5 -->|Performance Reports| User
+    P5 -->|Cost Analysis| User
+    P5 -->|SLA Violation Reports| User
+    P4 -->|Evaluation Metrics| MetricsDB
+    
+    %% Inter-Process Flows
+    P1 -->|Environment Config| P2
+    P1 -->|Environment Config| P3
+    P1 -->|Environment Config| P4
+    P2 -->|Trained Models| P4
+    P3 -->|Baseline Strategies| P4
+    P4 -->|Evaluation Results| P5
+    
+    %% Process to Data Store Flows
+    P1 -->|Workload Data| D1
+    P1 -->|Service Data| D2
+    P2 -->|Training Data| D3
+    P4 -->|Evaluation Results| D4
+    P1 -->|Experiment Data| D5
+    P2 -->|Experiment Data| D5
+    P3 -->|Experiment Data| D5
+    P4 -->|Experiment Data| D5
+    P5 -->|Experiment Data| D5
+    
+    %% Data Store to Process Flows
+    D1 -->|Workload Patterns| P2
+    D1 -->|Workload Patterns| P4
+    D2 -->|Service Configurations| P2
+    D2 -->|Service Configurations| P3
+    D2 -->|Service Configurations| P4
+    D3 -->|Trained Models| P4
+    D4 -->|Historical Results| P5
+    D5 -->|Experiment History| P2
+    D5 -->|Experiment History| P3
+    D5 -->|Experiment History| P4
+    D5 -->|Experiment History| P5
+    
+    %% Styling
+    classDef externalEntity fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef process fill:#e8f5e8,stroke:#388e3c,stroke-width:3px
+    classDef dataStore fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef inputFlow fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef outputFlow fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px
+    classDef interProcessFlow fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    
+    class User,WorkloadGen,CloudProvider,MetricsDB externalEntity
+    class P1,P2,P3,P4,P5 process
+    class D1,D2,D3,D4,D5 dataStore

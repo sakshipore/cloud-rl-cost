@@ -1,0 +1,80 @@
+flowchart TD
+    %% External Entities
+    User[👤 User/Researcher]
+    WorkloadGen[📊 Workload Generator]
+    CloudProvider[☁️ Cloud Service Provider]
+    MetricsDB[📈 Performance Metrics Database]
+    
+    %% Process 2.0 Sub-processes
+    P21[2.1: Environment<br/>Initialization]
+    P22[2.2: DQN Model<br/>Configuration]
+    P23[2.3: Training Loop<br/>Execution]
+    P24[2.4: Model Validation<br/>& Saving]
+    
+    %% Process 4.0 Sub-processes
+    P41[4.1: RL Model<br/>Evaluation]
+    P42[4.2: Baseline Strategy<br/>Evaluation]
+    P43[4.3: Performance Metrics<br/>Calculation]
+    P44[4.4: Statistical Analysis<br/>& Comparison]
+    
+    %% Data Stores
+    D1[(D1: Workload Patterns)]
+    D2[(D2: Service Configurations)]
+    D3[(D3: Training Data)]
+    D4[(D4: Evaluation Results)]
+    D5[(D5: Experiment Logs)]
+    
+    %% External to Process Flows
+    User -->|Training Parameters| P22
+    User -->|Evaluation Criteria| P41
+    User -->|Evaluation Criteria| P42
+    CloudProvider -->|Service Characteristics| P21
+    WorkloadGen -->|Synthetic Workload Data| P21
+    
+    %% Process to External Flows
+    P44 -->|Evaluation Metrics| MetricsDB
+    
+    %% Process 2.0 Internal Flows
+    P21 -->|Environment Config| P22
+    P22 -->|Configured Model| P23
+    P23 -->|Trained Model| P24
+    P24 -->|Validated Model| P41
+    
+    %% Process 4.0 Internal Flows
+    P41 -->|RL Metrics| P43
+    P42 -->|Baseline Metrics| P43
+    P43 -->|Comparative Metrics| P44
+    P44 -->|Analysis Results| D4
+    
+    %% Data Store Flows for Process 2.0
+    D1 -->|Workload Patterns| P21
+    D2 -->|Service Configurations| P21
+    P21 -->|Environment Data| D5
+    P22 -->|Model Config| D5
+    P23 -->|Training Progress| D5
+    P24 -->|Training Data| D3
+    P24 -->|Model Checkpoints| D3
+    P24 -->|Validation Results| D5
+    
+    %% Data Store Flows for Process 4.0
+    D3 -->|Trained Models| P41
+    D1 -->|Test Workloads| P41
+    D1 -->|Test Workloads| P42
+    D2 -->|Service Configurations| P41
+    D2 -->|Service Configurations| P42
+    P41 -->|RL Performance| D5
+    P42 -->|Baseline Performance| D5
+    P43 -->|Performance Metrics| D5
+    P44 -->|Statistical Analysis| D5
+    
+    %% Styling
+    classDef externalEntity fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef process fill:#e8f5e8,stroke:#388e3c,stroke-width:3px
+    classDef dataStore fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef inputFlow fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef outputFlow fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px
+    classDef interProcessFlow fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    
+    class User,WorkloadGen,CloudProvider,MetricsDB externalEntity
+    class P21,P22,P23,P24,P41,P42,P43,P44 process
+    class D1,D2,D3,D4,D5 dataStore
