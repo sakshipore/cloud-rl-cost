@@ -1,0 +1,146 @@
+graph TB
+    %% External Systems and Data Sources
+    subgraph "External Systems"
+        AWS[("AWS Cloud Services")]
+        PricingAPI[("Pricing APIs")]
+        WorkloadData[("Workload Data")]
+    end
+
+    %% User Interfaces
+    subgraph "User Interfaces"
+        Demo["Quick Demo Interface"]
+        CLI["Command Line Interface"]
+        Test["Testing Interface"]
+    end
+
+    %% Core System Components
+    subgraph "Core System Components"
+        subgraph "Reinforcement Learning Engine"
+            TrainDQN["DQN Training Engine"]
+            Evaluator["Comprehensive Evaluator"]
+            Compare["Strategy Comparison Engine"]
+        end
+        
+        subgraph "Baseline Strategy Agents"
+            RuleBased["Rule-based Agent Engine"]
+            CostOpt["Cost Optimized Agent"]
+            RelOpt["Reliability Optimized Agent"]
+            Hybrid["Hybrid Agent"]
+            WorkloadAware["Workload Aware Agent"]
+            Threshold["Threshold Agent"]
+        end
+    end
+
+    %% Simulation Environment
+    subgraph "Cloud Simulation Environment"
+        subgraph "Environment Core"
+            CloudEnv["Cloud Environment Simulator"]
+            CloudGym["Gymnasium Interface Wrapper"]
+        end
+        
+        subgraph "Cloud Service Models"
+            Services["Cloud Service Definitions"]
+            EC2OnDemand["EC2 On-Demand Service"]
+            EC2Spot["EC2 Spot Service"]
+            Lambda["AWS Lambda Service"]
+            Fargate["AWS Fargate Service"]
+        end
+        
+        subgraph "Workload Patterns"
+            Workloads["Workload Pattern Generator"]
+            Diurnal["Diurnal Pattern"]
+            Steady["Steady Pattern"]
+            Batch["Batch Pattern"]
+            Bursty["Bursty Pattern"]
+        end
+    end
+
+    %% Data Management
+    subgraph "Data Management System"
+        subgraph "State Management"
+            State["System State Vector<br/>[demand, utilization, latency,<br/>service_instances, prices]"]
+            History["Episode History<br/>[demand, latency, costs,<br/>violations, interruptions]"]
+        end
+        
+        subgraph "Model & Results Storage"
+            Models["Trained DQN Models"]
+            Results["Evaluation Results<br/>JSON/CSV Files"]
+            Plots["Visualization Plots<br/>PNG Files"]
+        end
+        
+        subgraph "Configuration Management"
+            Config["Service Configurations<br/>Pricing Models<br/>SLA Parameters"]
+        end
+    end
+
+    %% Machine Learning Framework
+    subgraph "Machine Learning Framework"
+        StableBaselines["Stable Baselines3<br/>DQN Implementation"]
+        Gymnasium["Gymnasium<br/>RL Environment Interface"]
+        PyTorch["PyTorch<br/>Neural Network Backend"]
+        NumPy["NumPy<br/>Numerical Computing"]
+    end
+
+    %% Data Flow Connections
+    Demo --> CloudGym
+    CLI --> TrainDQN
+    CLI --> Evaluator
+    Test --> CloudGym
+
+    TrainDQN --> CloudGym
+    TrainDQN --> StableBaselines
+    Evaluator --> CloudGym
+    Evaluator --> RuleBased
+    Compare --> Evaluator
+
+    RuleBased --> CostOpt
+    RuleBased --> RelOpt
+    RuleBased --> Hybrid
+    RuleBased --> WorkloadAware
+    RuleBased --> Threshold
+
+    CloudGym --> CloudEnv
+    CloudEnv --> Services
+    CloudEnv --> Workloads
+
+    Services --> EC2OnDemand
+    Services --> EC2Spot
+    Services --> Lambda
+    Services --> Fargate
+
+    Workloads --> Diurnal
+    Workloads --> Steady
+    Workloads --> Batch
+    Workloads --> Bursty
+
+    CloudEnv --> State
+    CloudEnv --> History
+    CloudEnv --> Config
+
+    TrainDQN --> Models
+    Evaluator --> Results
+    Evaluator --> Plots
+
+    StableBaselines --> Gymnasium
+    StableBaselines --> PyTorch
+    CloudGym --> Gymnasium
+
+    %% External Data Flow
+    Services -.-> AWS
+    Services -.-> PricingAPI
+    Workloads -.-> WorkloadData
+
+    %% Styling
+    classDef interface fill:#e1f5fe
+    classDef core fill:#f3e5f5
+    classDef simulation fill:#e8f5e8
+    classDef data fill:#fff3e0
+    classDef ml fill:#fce4ec
+    classDef external fill:#f5f5f5
+
+    class Demo,CLI,Test interface
+    class TrainDQN,Evaluator,Compare,RuleBased,CostOpt,RelOpt,Hybrid,WorkloadAware,Threshold core
+    class CloudEnv,CloudGym,Services,EC2OnDemand,EC2Spot,Lambda,Fargate,Workloads,Diurnal,Steady,Batch,Bursty simulation
+    class State,History,Models,Results,Plots,Config data
+    class StableBaselines,Gymnasium,PyTorch,NumPy ml
+    class AWS,PricingAPI,WorkloadData external

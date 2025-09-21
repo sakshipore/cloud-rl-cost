@@ -1,0 +1,229 @@
+classDiagram
+    %% Core Environment Classes
+    class CloudService {
+        -name: String
+        -pricing_model: Callable
+        -capacity: int
+        -startup_time: int
+        -reliability: float
+        -max_instances: int
+        -execution_limit: int
+        +__init__(name, pricing_model, capacity, startup_time, reliability, max_instances, execution_limit)
+        +calculate_cost(instances, requests, duration, time, **kwargs) float
+        +can_handle_workload(demand, instances) bool
+        +get_utilization(demand, instances) float
+    }
+
+    class EnhancedCloudEnvironment {
+        -n_steps: int
+        -rng: np.random.Generator
+        -workload_type: str
+        -services: Dict~str, CloudService~
+        -service_instances: Dict~str, int~
+        -service_pending: Dict~str, List~int~~
+        -latency_target: float
+        -sla_penalty: float
+        -t: int
+        -workload: np.ndarray
+        -current_latency: float
+        -history: Dict~str, List~
+        +__init__(n_steps, seed, workload_type, services)
+        +reset(seed) void
+        +step(action) Tuple~float, bool, Dict~
+        +get_state() np.ndarray
+        +get_metrics() Dict~str, Any~
+        -_handle_scaling(service_name, scale_action) void
+        -_process_pending_instances() void
+        -_handle_interruptions() int
+        -_calculate_total_capacity() float
+        -_calculate_service_demand(service_name, total_demand) int
+        -_calculate_latency(utilization) float
+        -_update_history(demand, latency, total_cost, sla_violation, service_costs, interruptions) void
+    }
+
+    class EnhancedCloudCostGym {
+        -env: EnhancedCloudEnvironment
+        -n_steps: int
+        -workload_type: str
+        -service_names: List~str~
+        -n_services: int
+        -action_space: spaces.Discrete
+        -observation_space: spaces.Box
+        +__init__(n_steps, seed, workload_type, services)
+        +reset(seed, options) Tuple~np.ndarray, Dict~
+        +step(action) Tuple~np.ndarray, float, bool, bool, Dict~
+        +render(mode) Optional~str~
+        +get_metrics() Dict~str, Any~
+        +get_history() Dict~str, Any~
+        +set_workload_type(workload_type) void
+        +get_service_info() Dict~str, Any~
+        -_get_info() Dict~str, Any~
+        +service_instances: property
+        +history: property
+        +services: property
+        +latency_target: property
+    }
+
+    %% Abstract Base Class
+    class RuleBasedAgent {
+        <<abstract>>
+        #name: str
+        +__init__(name)
+        +predict(observation, info) int*
+        +get_strategy_description() str
+    }
+
+    %% Concrete Rule-Based Agents
+    class CostOptimizedAgent {
+        -service_names: List~str~
+        +__init__()
+        +predict(observation, info) int
+    }
+
+    class ReliabilityOptimizedAgent {
+        -service_names: List~str~
+        -reliability_scores: List~float~
+        +__init__()
+        +predict(observation, info) int
+    }
+
+    class HybridAgent {
+        -service_names: List~str~
+        -reliability_scores: List~float~
+        +__init__()
+        +predict(observation, info) int
+    }
+
+    class WorkloadAwareAgent {
+        -service_names: List~str~
+        -demand_history: List~float~
+        -history_length: int
+        +__init__()
+        +predict(observation, info) int
+    }
+
+    class ThresholdAgent {
+        -service_names: List~str~
+        -demand_threshold: int
+        -utilization_threshold: float
+        +__init__(demand_threshold, utilization_threshold)
+        +predict(observation, info) int
+    }
+
+    %% Evaluation and Training Classes
+    class ComprehensiveEvaluator {
+        -output_dir: str
+        -metrics: List~str~
+        +__init__(output_dir)
+        +evaluate_strategy(strategy, env, n_episodes, strategy_name) Dict~str, Any~
+        +compare_strategies(strategies, workload_types, n_episodes) Dict~str, Any~
+        +generate_comparison_report(comparison_results, save_path) str
+        +plot_comparison_results(comparison_results, save_dir) void
+        -_calculate_summary_stats(results) Dict~str, Any~
+        -_plot_cost_comparison(comparison_results, save_dir) void
+        -_plot_sla_comparison(comparison_results, save_dir) void
+        -_plot_service_usage(comparison_results, save_dir) void
+        -_plot_performance_tradeoffs(comparison_results, save_dir) void
+    }
+
+    %% External Dependencies
+    class DQN {
+        <<external>>
+        +learn(total_timesteps, callback) void
+        +predict(obs, deterministic) Tuple~int, np.ndarray~
+        +save(path) void
+    }
+
+    class GymnasiumEnv {
+        <<interface>>
+        +reset(seed, options) Tuple~np.ndarray, Dict~
+        +step(action) Tuple~np.ndarray, float, bool, bool, Dict~
+        +render(mode) Optional~str~
+    }
+
+    %% Utility Functions (Static)
+    class WorkloadGenerator {
+        <<utility>>
+        +generate_workload(n_steps, seed, workload_type) np.ndarray$
+        +generate_workloads(n_steps, types, seed) Dict~str, np.ndarray~$
+        +get_workload_characteristics(workload) Dict~str, float~$
+        +_generate_diurnal_workload(t, rng) np.ndarray$
+        +_generate_steady_workload(t, rng) np.ndarray$
+        +_generate_batch_workload(t, rng) np.ndarray$
+        +_generate_bursty_workload(t, rng) np.ndarray$
+    }
+
+    class ServiceFactory {
+        <<utility>>
+        +create_service(service_type, **kwargs) CloudService$
+        +get_all_services() Dict~str, CloudService~$
+        +on_demand_pricing(instances, requests, duration, time, base_price, **kwargs) float$
+        +spot_pricing(instances, requests, duration, time, base_price, **kwargs) float$
+        +serverless_pricing(instances, requests, duration, time, base_price, **kwargs) float$
+        +container_pricing(instances, requests, duration, time, base_price, **kwargs) float$
+    }
+
+    class AgentFactory {
+        <<utility>>
+        +create_agent(agent_type, **kwargs) RuleBasedAgent$
+    }
+
+    %% Relationships - Inheritance
+    RuleBasedAgent <|-- CostOptimizedAgent : extends
+    RuleBasedAgent <|-- ReliabilityOptimizedAgent : extends
+    RuleBasedAgent <|-- HybridAgent : extends
+    RuleBasedAgent <|-- WorkloadAwareAgent : extends
+    RuleBasedAgent <|-- ThresholdAgent : extends
+
+    %% Relationships - Implementation
+    EnhancedCloudCostGym ..|> GymnasiumEnv : implements
+
+    %% Relationships - Composition (Strong Ownership)
+    EnhancedCloudEnvironment *-- CloudService : contains 1..*
+    EnhancedCloudCostGym *-- EnhancedCloudEnvironment : contains 1
+
+    %% Relationships - Aggregation (Weak Ownership)
+    EnhancedCloudEnvironment o-- WorkloadGenerator : uses
+    ComprehensiveEvaluator o-- EnhancedCloudCostGym : evaluates
+    ComprehensiveEvaluator o-- RuleBasedAgent : compares
+
+    %% Relationships - Association (Usage)
+    EnhancedCloudEnvironment --> CloudService : uses
+    EnhancedCloudCostGym --> EnhancedCloudEnvironment : wraps
+    ComprehensiveEvaluator --> EnhancedCloudCostGym : evaluates
+    ComprehensiveEvaluator --> RuleBasedAgent : compares
+    AgentFactory --> RuleBasedAgent : creates
+    ServiceFactory --> CloudService : creates
+
+    %% Relationships - Dependency (Temporary Usage)
+    EnhancedCloudEnvironment ..> WorkloadGenerator : depends on
+    EnhancedCloudEnvironment ..> ServiceFactory : depends on
+    CostOptimizedAgent ..> CloudService : depends on
+    ReliabilityOptimizedAgent ..> CloudService : depends on
+    HybridAgent ..> CloudService : depends on
+    WorkloadAwareAgent ..> CloudService : depends on
+    ThresholdAgent ..> CloudService : depends on
+
+    %% Styling
+    classDef environmentClass fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef rlClass fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef baselineClass fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef utilityClass fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef externalClass fill:#f5f5f5,stroke:#616161,stroke-width:1px,stroke-dasharray: 5 5
+    classDef interfaceClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px,stroke-dasharray: 5 5
+
+    class CloudService environmentClass
+    class EnhancedCloudEnvironment environmentClass
+    class EnhancedCloudCostGym environmentClass
+    class ComprehensiveEvaluator rlClass
+    class RuleBasedAgent baselineClass
+    class CostOptimizedAgent baselineClass
+    class ReliabilityOptimizedAgent baselineClass
+    class HybridAgent baselineClass
+    class WorkloadAwareAgent baselineClass
+    class ThresholdAgent baselineClass
+    class AgentFactory baselineClass
+    class WorkloadGenerator utilityClass
+    class ServiceFactory utilityClass
+    class DQN externalClass
+    class GymnasiumEnv interfaceClass
