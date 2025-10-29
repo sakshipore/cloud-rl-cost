@@ -1,0 +1,34 @@
+================================================================================
+CLOUD COST OPTIMIZATION - STRATEGY COMPARISON REPORT
+================================================================================
+
+WORKLOAD TYPE: DIURNAL
+----------------------------------------
+Strategy            Total Cost          Sla Violation Rate  Avg Latency         Resource Efficiency 
+----------------------------------------------------------------------------------------------------
+cost_optimized      $64.80              6.2%                154.2ms             0.527               
+reliability_optimized$1123.37            11.9%               174.0ms             0.465               
+hybrid              $2133.19            2.5%                130.8ms             0.233               
+workload_aware      $618.26             8.2%                153.9ms             0.404               
+threshold           $1608.35            3.9%                133.7ms             0.300               
+rl_diurnal          $669.70             97.0%               810.0ms             5.578               
+
+WORKLOAD TYPE: STEADY
+----------------------------------------
+Strategy            Total Cost          Sla Violation Rate  Avg Latency         Resource Efficiency 
+----------------------------------------------------------------------------------------------------
+cost_optimized      $34.88              1.1%                140.7ms             0.594               
+reliability_optimized$1146.65            1.3%                127.7ms             0.475               
+hybrid              $1293.85            1.3%                127.6ms             0.421               
+workload_aware      $579.72             15.3%               188.3ms             0.589               
+threshold           $1261.77            1.4%                127.7ms             0.435               
+rl_steady           $740.58             100.0%              2170.6ms            2.806               
+
+OVERALL SUMMARY
+----------------------------------------
+Best Total Cost: cost_optimized
+Best Sla Violation Rate: hybrid
+Best Avg Latency: hybrid
+Best Resource Efficiency: rl_diurnal
+
+================================================================================

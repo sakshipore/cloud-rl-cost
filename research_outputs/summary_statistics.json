@@ -1,0 +1,70 @@
+{
+  "workload_types": [
+    "diurnal",
+    "steady"
+  ],
+  "strategies": {
+    "hybrid": {
+      "avg_cost": 1713.5188713651928,
+      "avg_sla_rate": 0.01933333333333333,
+      "avg_latency": 129.21280436107102,
+      "avg_efficiency": 0.3273107321880925,
+      "cost_std": 419.673765834008,
+      "sla_rate_std": 0.005999999999999998
+    },
+    "rl_steady": {
+      "avg_cost": 740.577671999999,
+      "avg_sla_rate": 1.0,
+      "avg_latency": 2170.5944444444444,
+      "avg_efficiency": 2.806037904124861,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "reliability_optimized": {
+      "avg_cost": 1135.0088742859598,
+      "avg_sla_rate": 0.06633333333333333,
+      "avg_latency": 150.87309298540964,
+      "avg_efficiency": 0.4696972372965863,
+      "cost_std": 11.641593201006458,
+      "sla_rate_std": 0.053
+    },
+    "cost_optimized": {
+      "avg_cost": 49.83763239999999,
+      "avg_sla_rate": 0.03666666666666667,
+      "avg_latency": 147.41936444203944,
+      "avg_efficiency": 0.5601571345878135,
+      "cost_std": 14.959038799999988,
+      "sla_rate_std": 0.025333333333333333
+    },
+    "rl_diurnal": {
+      "avg_cost": 669.6986962684408,
+      "avg_sla_rate": 0.97,
+      "avg_latency": 810.0195555555555,
+      "avg_efficiency": 5.578368208943656,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "threshold": {
+      "avg_cost": 1435.057180949198,
+      "avg_sla_rate": 0.026333333333333334,
+      "avg_latency": 130.73211925605258,
+      "avg_efficiency": 0.36722064797724085,
+      "cost_std": 173.29160256740397,
+      "sla_rate_std": 0.012333333333333333
+    },
+    "workload_aware": {
+      "avg_cost": 598.9922260361592,
+      "avg_sla_rate": 0.11766666666666667,
+      "avg_latency": 171.1174884156486,
+      "avg_efficiency": 0.4962473292200869,
+      "cost_std": 19.271485312253503,
+      "sla_rate_std": 0.03566666666666666
+    }
+  },
+  "best_performers": {
+    "lowest_cost": "cost_optimized",
+    "lowest_sla_rate": "hybrid",
+    "highest_efficiency": "rl_diurnal"
+  },
+  "overall_metrics": {}
+}

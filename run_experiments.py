@@ -149,8 +149,9 @@ def run_complete_experiment(workload_types: List[str] = None,
     
     print("Comparison report generated")
     
-    # Generate plots
-    evaluator.plot_comparison_results(cross_workload_results, output_dir)
+    # Generate plots using the comparison module
+    from baselines.compare import plot_comparison_results
+    plot_comparison_results(cross_workload_results, output_dir)
     print("Comparison plots generated")
     
     # Step 5: Save detailed results
