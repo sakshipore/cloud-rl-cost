@@ -1,0 +1,43 @@
+================================================================================
+COMPREHENSIVE COMPARISON REPORT
+================================================================================
+
+Workload Type: steady
+Generated: 2026-01-07 21:00:15
+
+================================================================================
+
+SUMMARY STATISTICS
+--------------------------------------------------------------------------------
+
+TRADITIONAL:
+  Total Cost: $641.91
+  SLA Violation Rate: 1.77%
+  Overall Availability: 99.58%
+  Average Latency: 128.69 ms
+  Cost per Request: $0.002129
+
+VPQ_INSPIRED:
+  Total Cost: $230.99
+  SLA Violation Rate: 97.90%
+  Overall Availability: 99.71%
+  Average Latency: 729.06 ms
+  Cost per Request: $0.000766
+
+DQN:
+  Total Cost: $29.15
+  SLA Violation Rate: 1.00%
+  Overall Availability: 99.87%
+  Average Latency: 123.13 ms
+  Cost per Request: $0.000097
+
+================================================================================
+BEST PERFORMERS
+--------------------------------------------------------------------------------
+
+Lowest Cost: dqn ($29.15)
+Lowest SLA Violation Rate: dqn (1.00%)
+Highest Availability: dqn (99.87%)
+Lowest Average Latency: dqn (123.13 ms)
+
+================================================================================

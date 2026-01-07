@@ -9,7 +9,8 @@ class CloudService:
     
     def __init__(self, name: str, pricing_model: Callable, capacity: int, 
                  startup_time: int, reliability: float = 1.0, 
-                 max_instances: int = None, execution_limit: int = None):
+                 max_instances: int = None, execution_limit: int = None,
+                 availability_target: float = 0.99):
         """
         Initialize a cloud service.
         
@@ -21,6 +22,7 @@ class CloudService:
             reliability: Probability of not being interrupted (0-1)
             max_instances: Maximum number of instances allowed
             execution_limit: Maximum execution time in minutes (for serverless)
+            availability_target: Target availability percentage (0-1), e.g., 0.99 for 99%
         """
         self.name = name
         self.pricing_model = pricing_model
@@ -29,6 +31,7 @@ class CloudService:
         self.reliability = reliability
         self.max_instances = max_instances
         self.execution_limit = execution_limit
+        self.availability_target = availability_target
     
     def calculate_cost(self, instances: int, requests: int, duration: float, 
                       time: int, **kwargs) -> float:
@@ -172,7 +175,8 @@ SERVICE_CONFIGS = {
         "capacity": 150,
         "startup_time": 3,
         "reliability": 0.999,
-        "max_instances": 20
+        "max_instances": 20,
+        "availability_target": 0.99  # 99% availability target
     },
     "ec2_spot": {
         "name": "EC2 Spot",
@@ -180,7 +184,8 @@ SERVICE_CONFIGS = {
         "capacity": 150,
         "startup_time": 3,
         "reliability": 0.95,
-        "max_instances": 20
+        "max_instances": 20,
+        "availability_target": 0.90  # 90% availability target (lower due to interruptions)
     },
     "lambda": {
         "name": "AWS Lambda",
@@ -189,7 +194,8 @@ SERVICE_CONFIGS = {
         "startup_time": 0,
         "reliability": 0.999,
         "max_instances": None,
-        "execution_limit": 15  # 15 minutes max execution time
+        "execution_limit": 15,  # 15 minutes max execution time
+        "availability_target": 0.99  # 99% availability target
     },
     "fargate": {
         "name": "AWS Fargate",
@@ -197,7 +203,8 @@ SERVICE_CONFIGS = {
         "capacity": 120,
         "startup_time": 1,
         "reliability": 0.999,
-        "max_instances": 15
+        "max_instances": 15,
+        "availability_target": 0.99  # 99% availability target
     }
 }
 

@@ -1,0 +1,23 @@
+[
+  {
+    "scenario": "latency_critical",
+    "service": "fargate",
+    "scale_action": "scale_down",
+    "expected_cost": 0.0,
+    "reasoning": "Scenario: Latency Critical\nCurrent workload: high intensity (304 req/s)\nCurrent utilization: medium (58.5%)\n\nSelected Service: AWS Fargate\n  - Reliability: 99.9%\n  - Cost Level: medium_high\n  - Latency Profile: low\n\nReasoning: Latency-critical scenario prioritizes low latency and high reliability.\n  AWS Fargate selected for its low latency profile.\n\nScaling Decision: Scale down\n  - Current capacity exceeds demand\n  - Expected instances: 1 \u2192 0\n\nExpected Outcomes:\n  - Expected Cost: $0.00\n  - Expected Latency: low\n  - Expected Availability: 99.9%\n\nModel Confidence:\n  - Selected action Q-value: 25.09\n  - Best Q-value: 27.85\n  - Decision differs from optimal by 2.77"
+  },
+  {
+    "scenario": "cost_sensitive",
+    "service": "fargate",
+    "scale_action": "scale_down",
+    "expected_cost": 0.0,
+    "reasoning": "Scenario: Cost Sensitive\nCurrent workload: high intensity (304 req/s)\nCurrent utilization: medium (58.5%)\n\nSelected Service: AWS Fargate\n  - Reliability: 99.9%\n  - Cost Level: medium_high\n  - Latency Profile: low\n\nReasoning: Cost-sensitive scenario prioritizes cost minimization.\n  AWS Fargate selected for its medium_high cost level.\n\nScaling Decision: Scale down\n  - Current capacity exceeds demand\n  - Expected instances: 1 \u2192 0\n\nExpected Outcomes:\n  - Expected Cost: $0.00\n  - Expected Latency: low\n  - Expected Availability: 99.9%\n\nModel Confidence:\n  - Selected action Q-value: 24.89\n  - Best Q-value: 27.62\n  - Decision differs from optimal by 2.73"
+  },
+  {
+    "scenario": "balanced",
+    "service": "fargate",
+    "scale_action": "scale_down",
+    "expected_cost": 0.0,
+    "reasoning": "Scenario: Balanced\nCurrent workload: high intensity (304 req/s)\nCurrent utilization: medium (58.5%)\n\nSelected Service: AWS Fargate\n  - Reliability: 99.9%\n  - Cost Level: medium_high\n  - Latency Profile: low\n\nReasoning: Balanced scenario considers both cost and SLA.\n  AWS Fargate selected as a balance between cost and performance.\n\nScaling Decision: Scale down\n  - Current capacity exceeds demand\n  - Expected instances: 1 \u2192 0\n\nExpected Outcomes:\n  - Expected Cost: $0.00\n  - Expected Latency: low\n  - Expected Availability: 99.9%\n\nModel Confidence:\n  - Selected action Q-value: 25.12\n  - Best Q-value: 27.90\n  - Decision differs from optimal by 2.78"
+  }
+]

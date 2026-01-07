@@ -14,8 +14,9 @@ from stable_baselines3 import DQN
 # Import our modules
 from envs.enhanced_cloud_gym import EnhancedCloudCostGym
 from baselines.rule_based import create_agent
-from baselines.compare import compare_strategies, generate_comparison_report, plot_comparison_results
-from rl.evaluate import ComprehensiveEvaluator
+from evaluation.comprehensive_eval import ComprehensiveEvaluator
+from rl.reward_analysis import generate_all_reward_plots
+from rl.adaptive_decision import AdaptiveDecisionMaker
 
 def run_complete_experiment(workload_types: List[str] = None,
                            n_episodes: int = 10,
@@ -287,5 +288,95 @@ def main():
     
     print(f"\nExperiment completed! Results saved to {args.output_dir}")
 
+
+def run_comprehensive_research_evaluation(workload_types: List[str] = None,
+                                         n_steps: int = 300,
+                                         n_episodes: int = 5,
+                                         output_dir: str = "research_outputs_final",
+                                         seed: int = 42) -> Dict[str, Any]:
+    """
+    Run comprehensive research-grade evaluation with all three approaches.
+    
+    This function uses the ComprehensiveEvaluator to:
+    - Train Traditional, VpQ-inspired, and DQN approaches
+    - Evaluate on all workload types
+    - Generate academic-quality reports and visualizations
+    - Demonstrate adaptive decision making
+    
+    Args:
+        workload_types: List of workload types to evaluate
+        n_steps: Number of steps per episode
+        n_episodes: Number of evaluation episodes
+        output_dir: Output directory for results
+        seed: Random seed
+    
+    Returns:
+        Complete evaluation results
+    """
+    print("=" * 80)
+    print("COMPREHENSIVE RESEARCH-GRADE EVALUATION")
+    print("=" * 80)
+    print("This evaluation includes:")
+    print("  1. Traditional heuristic-based approaches")
+    print("  2. VpQ-inspired RL baseline (cost-only, tabular Q-learning)")
+    print("  3. DQN-based adaptive service selection (SLA-aware)")
+    print("=" * 80)
+    
+    evaluator = ComprehensiveEvaluator(output_dir=output_dir)
+    
+    # Run complete evaluation
+    all_results = evaluator.run_complete_evaluation(
+        workload_types=workload_types,
+        n_steps=n_steps,
+        n_episodes=n_episodes,
+        seed=seed
+    )
+    
+    print("\n" + "=" * 80)
+    print("COMPREHENSIVE EVALUATION COMPLETED")
+    print("=" * 80)
+    print(f"Results saved to: {output_dir}")
+    print("\nGenerated outputs:")
+    print("  - Comparison tables (CSV)")
+    print("  - Comparison reports (TXT)")
+    print("  - Detailed results (JSON)")
+    print("  - Academic-quality visualizations (PNG)")
+    print("  - Adaptive decision demonstrations")
+    print("=" * 80)
+    
+    return all_results
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+    
+    # Check if user wants comprehensive research evaluation
+    if len(sys.argv) > 1 and sys.argv[1] == "--research":
+        # Run comprehensive research evaluation
+        parser = argparse.ArgumentParser(description="Run comprehensive research-grade evaluation")
+        parser.add_argument("--research", action="store_true",
+                          help="Run comprehensive research evaluation")
+        parser.add_argument("--workload-types", nargs="+",
+                          default=["steady", "diurnal", "batch", "bursty"],
+                          help="Workload types to test")
+        parser.add_argument("--steps", type=int, default=300,
+                          help="Number of steps per episode")
+        parser.add_argument("--episodes", type=int, default=5,
+                          help="Number of evaluation episodes")
+        parser.add_argument("--output-dir", default="research_outputs_final",
+                          help="Output directory for results")
+        parser.add_argument("--seed", type=int, default=42,
+                          help="Random seed")
+        
+        args = parser.parse_args()
+        
+        results = run_comprehensive_research_evaluation(
+            workload_types=args.workload_types,
+            n_steps=args.steps,
+            n_episodes=args.episodes,
+            output_dir=args.output_dir,
+            seed=args.seed
+        )
+    else:
+        # Run standard experiment
+        main()

@@ -1,0 +1,62 @@
+[
+  {
+    "scenario": "low_demand_cost_sensitive",
+    "service_selections": {
+      "ec2_ondemand": 40,
+      "ec2_spot": 0,
+      "lambda": 9,
+      "fargate": 1
+    },
+    "scaling_actions": {
+      "scale_down": 9,
+      "no_change": 41,
+      "scale_up": 0
+    },
+    "total_steps": 50
+  },
+  {
+    "scenario": "high_demand_latency_critical",
+    "service_selections": {
+      "ec2_ondemand": 0,
+      "ec2_spot": 0,
+      "lambda": 49,
+      "fargate": 1
+    },
+    "scaling_actions": {
+      "scale_down": 1,
+      "no_change": 0,
+      "scale_up": 49
+    },
+    "total_steps": 50
+  },
+  {
+    "scenario": "variable_demand_balanced",
+    "service_selections": {
+      "ec2_ondemand": 11,
+      "ec2_spot": 2,
+      "lambda": 22,
+      "fargate": 15
+    },
+    "scaling_actions": {
+      "scale_down": 22,
+      "no_change": 11,
+      "scale_up": 17
+    },
+    "total_steps": 50
+  },
+  {
+    "scenario": "bursty_demand",
+    "service_selections": {
+      "ec2_ondemand": 4,
+      "ec2_spot": 1,
+      "lambda": 22,
+      "fargate": 23
+    },
+    "scaling_actions": {
+      "scale_down": 25,
+      "no_change": 4,
+      "scale_up": 21
+    },
+    "total_steps": 50
+  }
+]

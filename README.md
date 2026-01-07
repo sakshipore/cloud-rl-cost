@@ -122,18 +122,44 @@ actions = [
 The reward function balances cost optimization with SLA compliance:
 
 ```python
-def calculate_reward(total_cost, latency, latency_target=200):
-    sla_violation = 1 if latency > latency_target else 0
-    penalty = sla_penalty * sla_violation  # sla_penalty = 2.0
-    return -(total_cost + penalty)  # Negative because we want to minimize cost
+def calculate_reward(total_cost, latency, utilization, service_availability, 
+                   availability_violation):
+    """
+    Enhanced reward function with multiple components:
+    1. Cost term: -total_cost (minimize spending)
+    2. Latency penalty: -sla_penalty if latency > target
+    3. Availability penalty: -availability_penalty if availability < target
+    4. High-load bonus: +bonus if SLA met under high load
+    """
+    cost_term = -total_cost
+    latency_penalty = -sla_penalty * (1 if latency > latency_target else 0)
+    availability_penalty = -availability_penalty * availability_violation
+    high_load_bonus = (high_load_bonus if utilization >= threshold and 
+                      sla_met and availability_met else 0)
+    return cost_term + latency_penalty + availability_penalty + high_load_bonus
 ```
 
 **Reward Components:**
 - **Primary**: Negative cost (minimize spending)
-- **Penalty**: SLA violation penalty (maintain performance)
+- **Latency Penalty**: SLA violation penalty for latency (maintain performance)
+- **Availability Penalty**: SLA violation penalty for availability (maintain reliability)
+- **High-Load Bonus**: Incentive for meeting SLA under high utilization
 - **Balance**: Encourages cost reduction while respecting performance constraints
 
-### 4. **Rule-Based Baselines**
+For detailed reward function design, see [REWARD_FUNCTION_DESIGN.md](documentation/REWARD_FUNCTION_DESIGN.md).
+
+### 4. **VpQ-Inspired RL Baseline**
+
+A simplified tabular Q-learning baseline inspired by VpQ-learning for pricing optimization:
+
+- **State Discretization**: Continuous state space discretized into bins (demand, utilization, prices)
+- **Cost-Only Optimization**: Reward function considers only cost (no SLA awareness)
+- **Tabular Q-Learning**: Standard Q-learning with ε-greedy exploration
+- **Monotonicity-Inspired Updates**: Conceptual VpQ inspiration for value updates
+
+This baseline serves as a comparison point representing existing work in the literature, demonstrating the value of SLA-aware optimization.
+
+### 5. **Rule-Based Baselines**
 
 To validate RL performance, the system includes five rule-based strategies:
 
@@ -384,8 +410,11 @@ python demo.py
 ### **3. Run Complete Experiment**
 
 ```bash
-# Full experiment with all workload types
+# Standard experiment with all workload types
 python run_experiments.py --workload-types diurnal steady batch bursty --episodes 10 --timesteps 20000
+
+# Comprehensive research-grade evaluation (includes VpQ baseline and adaptive decisions)
+python run_experiments.py --research --workload-types steady diurnal batch bursty --episodes 5 --steps 300
 ```
 
 ### **4. Custom Training**
@@ -783,11 +812,29 @@ python run_experiments.py \
 
 The system generates comprehensive results including:
 
-1. **Cost Comparison Charts**: Visual comparison of costs across strategies
-2. **SLA Performance Analysis**: Violation rates and latency performance
+1. **Cost Comparison Charts**: Visual comparison of costs across all three approaches (Traditional, VpQ-inspired, DQN)
+2. **SLA Performance Analysis**: Violation rates, latency, and availability metrics
 3. **Service Usage Patterns**: How different strategies use various services
-4. **Performance Trade-offs**: Cost vs. SLA violation scatter plots
+4. **Performance Trade-offs**: Cost vs. SLA violation scatter plots and Pareto frontiers
 5. **Time Series Analysis**: Demand, capacity, and cost over time
+6. **Reward Analysis**: Reward component breakdown and reward vs workload intensity
+7. **Adaptive Decision Logs**: Detailed reasoning for service selection decisions
+
+### Comprehensive Comparison Framework
+
+The system provides a three-way comparison:
+
+1. **Traditional Heuristic Approaches**: Rule-based strategies (cost-optimized, hybrid, reliability-optimized, etc.)
+2. **VpQ-Inspired RL Baseline**: Tabular Q-learning with cost-only optimization
+3. **DQN-Based Adaptive**: SLA-aware deep reinforcement learning
+
+All approaches are evaluated on:
+- Total cost
+- SLA violation rate
+- Availability percentage
+- Average latency
+- Service utilization efficiency
+- Cost per request handled
 
 ## 🔬 Technical Deep Dive
 
