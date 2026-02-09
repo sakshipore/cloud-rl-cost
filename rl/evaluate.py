@@ -439,25 +439,75 @@ class ComprehensiveEvaluator:
     
     def _plot_performance_tradeoffs(self, comparison_results: Dict[str, Any], save_dir: str):
         """Plot performance trade-offs (cost vs SLA violations)."""
-        fig, ax = plt.subplots(figsize=(10, 8))
-        
-        colors = plt.cm.Set3(np.linspace(0, 1, len(comparison_results)))
-        
-        for i, (workload_type, workload_results) in enumerate(comparison_results.items()):
-            for strategy_name, results in workload_results.items():
-                cost = results["summary"]["total_cost"]["mean"]
-                sla_rate = results["summary"]["sla_violation_rate"]["mean"]
-                
-                ax.scatter(cost, sla_rate, 
-                          label=f"{strategy_name} ({workload_type})",
-                          color=colors[i], s=100, alpha=0.7)
-        
-        ax.set_xlabel("Total Cost ($)")
-        ax.set_ylabel("SLA Violation Rate")
-        ax.set_title("Performance Trade-offs: Cost vs SLA Violations")
-        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-        ax.grid(True, alpha=0.3)
-        
+        # Small multiples: one subplot per workload type. For each subplot, plot cost (left axis)
+        # and SLA violation rate (right axis) across strategies as lines for easy comparison.
+        workload_types = list(comparison_results.keys())
+        n = len(workload_types)
+        if n == 0:
+            return
+
+        ncols = 2
+        nrows = (n + ncols - 1) // ncols
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(12, 4 * nrows), squeeze=False)
+        axes_flat = axes.flatten()
+
+        # Determine global list of strategies for consistent ordering (use union across workloads)
+        strategies = sorted({s for w in comparison_results.values() for s in w.keys()})
+        # Color map per strategy
+        cmap = plt.get_cmap("tab10")
+        strategy_colors = {s: cmap(i % cmap.N) for i, s in enumerate(strategies)}
+
+        # User-defined display name mapping for strategies
+        display_name_map = {
+            "cost_optimized": "DQN",
+            "reliability_optimized": "Traditional",
+            "hybrid": "VpQ"
+        }
+
+        for i, workload_type in enumerate(workload_types):
+            ax = axes_flat[i]
+            ax2 = ax.twinx()
+
+            workload_results = comparison_results.get(workload_type, {})
+            x = []
+            cost_vals = []
+            sla_vals = []
+            for j, strategy_name in enumerate(strategies):
+                results = workload_results.get(strategy_name)
+                if results is None:
+                    # Mark missing with NaN to keep alignment
+                    x.append(display_name_map.get(strategy_name, strategy_name))
+                    cost_vals.append(np.nan)
+                    sla_vals.append(np.nan)
+                else:
+                    x.append(display_name_map.get(strategy_name, strategy_name))
+                    cost_vals.append(results["summary"]["total_cost"]["mean"])
+                    sla_vals.append(results["summary"]["sla_violation_rate"]["mean"])
+
+            indices = range(len(x))
+            # Plot cost on primary axis
+            ax.plot(indices, cost_vals, marker="o", linestyle="-", color="#1f77b4", label="Total Cost")
+            # Plot SLA on secondary axis
+            ax2.plot(indices, sla_vals, marker="s", linestyle="--", color="#d62728", label="SLA Violation Rate")
+
+            # Set x-ticks and labels
+            ax.set_xticks(indices)
+            ax.set_xticklabels(x, rotation=45, ha="right", fontsize=9)
+
+            ax.set_ylabel("Total Cost ($)", color="#1f77b4")
+            ax2.set_ylabel("SLA Violation Rate", color="#d62728")
+            ax.set_title(f"Workload: {workload_type.title()}")
+            ax.grid(True, alpha=0.2)
+
+            # Add legends (combine)
+            lines, labels = ax.get_legend_handles_labels()
+            lines2, labels2 = ax2.get_legend_handles_labels()
+            ax.legend(lines + lines2, labels + labels2, loc="upper left", fontsize=9)
+
+        # Hide any unused subplots
+        for k in range(len(workload_types), len(axes_flat)):
+            fig.delaxes(axes_flat[k])
+
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, "performance_tradeoffs.png"), dpi=150)
         plt.close()
