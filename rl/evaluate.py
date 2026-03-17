@@ -461,7 +461,7 @@ class ComprehensiveEvaluator:
         display_name_map = {
             "cost_optimized": "DQN",
             "reliability_optimized": "Traditional",
-            "hybrid": "VpQ"
+            "hybrid": "Cost only DQN",
         }
 
         for i, workload_type in enumerate(workload_types):
