@@ -37,8 +37,18 @@ def plot_cost_comparison(results: Dict[str, Dict[str, Any]],
         # Skip individual traditional approaches if we have aggregated "traditional"
         if approach_name.startswith("traditional_") and "traditional" in results:
             continue
-            
-        approaches.append(approach_name.replace("_", " ").title())
+
+        # Human-friendly label mapping
+        if approach_name == "vpq_inspired":
+            label = "Cost only DQN"
+        elif approach_name == "dqn":
+            label = "Proposed DQN"
+        elif approach_name.startswith("traditional"):
+            label = "Traditional heuristic"
+        else:
+            label = approach_name.replace("_", " ").title()
+
+        approaches.append(label)
         costs.append(metrics.get("total_cost", 0))
         std_costs.append(metrics.get("std_cost", 0))
     
@@ -51,12 +61,17 @@ def plot_cost_comparison(results: Dict[str, Dict[str, Any]],
     
     # Color bars by approach type
     colors = []
-    for approach in approaches:
-        if "Traditional" in approach:
+    for approach_name, label in zip(results.keys(), approaches):
+        # Skip individual traditional approaches if we have aggregated "traditional"
+        if approach_name.startswith("traditional_") and "traditional" in results:
+            continue
+
+        lower_name = approach_name.lower()
+        if "traditional" in lower_name:
             colors.append('#1f77b4')  # Blue
-        elif "Vpq" in approach or "VpQ" in approach:
+        elif "vpq" in lower_name:
             colors.append('#ff7f0e')  # Orange
-        elif "Dqn" in approach or "DQN" in approach:
+        elif "dqn" in lower_name:
             colors.append('#2ca02c')  # Green
         else:
             colors.append('#d62728')  # Red
@@ -81,9 +96,9 @@ def plot_cost_comparison(results: Dict[str, Dict[str, Any]],
     # Add legend
     from matplotlib.patches import Patch
     legend_elements = [
-        Patch(facecolor='#1f77b4', label='Traditional Heuristic'),
-        Patch(facecolor='#ff7f0e', label='VpQ-inspired RL'),
-        Patch(facecolor='#2ca02c', label='DQN-based Adaptive')
+        Patch(facecolor='#1f77b4', label='Traditional heuristic'),
+        Patch(facecolor='#ff7f0e', label='Cost only DQN'),
+        Patch(facecolor='#2ca02c', label='Proposed DQN')
     ]
     ax.legend(handles=legend_elements, loc='upper right', frameon=False, fontsize=10)
     
@@ -113,8 +128,18 @@ def plot_sla_comparison(results: Dict[str, Dict[str, Any]],
         # Skip individual traditional approaches if we have aggregated "traditional"
         if approach_name.startswith("traditional_") and "traditional" in results:
             continue
-            
-        approaches.append(approach_name.replace("_", " ").title())
+
+        # Human-friendly label mapping (keep consistent with cost comparison)
+        if approach_name == "vpq_inspired":
+            label = "Cost only DQN"
+        elif approach_name == "dqn":
+            label = "Proposed DQN"
+        elif approach_name.startswith("traditional"):
+            label = "Traditional heuristic"
+        else:
+            label = approach_name.replace("_", " ").title()
+
+        approaches.append(label)
         sla_rates.append(metrics.get("sla_violation_rate", 0) * 100)  # Convert to percentage
         availabilities.append(metrics.get("overall_availability", 0) * 100)
         latencies.append(metrics.get("avg_latency", 0))
