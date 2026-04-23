@@ -1,0 +1,25 @@
+Strategy,Workload,Total Cost ($),Cost/Request ($),SLA Rate (%),Avg Latency (ms),P95 Latency (ms),Cost Savings (%)
+Cost Optimized,Diurnal,638.59,0.010643,3.6,150.0,200.0,66.3
+Reliability Optimized,Diurnal,1148.47,0.019141,5.6,150.0,200.0,39.4
+Hybrid,Diurnal,1895.29,0.031588,1.8,150.0,200.0,0.0
+Workload Aware,Diurnal,919.74,0.015329,3.8,150.0,200.0,51.5
+Threshold,Diurnal,1583.90,0.026398,1.7,150.0,200.0,16.4
+Rl Diurnal,Diurnal,54.50,0.000908,0.7,150.0,200.0,97.1
+Cost Optimized,Steady,573.34,0.009556,0.3,150.0,200.0,53.7
+Reliability Optimized,Steady,1101.92,0.018365,0.9,150.0,200.0,11.0
+Hybrid,Steady,1235.80,0.020597,0.9,150.0,200.0,0.2
+Workload Aware,Steady,867.78,0.014463,5.7,150.0,200.0,29.9
+Threshold,Steady,1238.20,0.020637,0.7,150.0,200.0,0.0
+Rl Steady,Steady,41.78,0.000696,0.4,150.0,200.0,96.6
+Cost Optimized,Batch,673.12,0.011219,3.2,150.0,200.0,62.7
+Reliability Optimized,Batch,1438.22,0.023970,3.3,150.0,200.0,20.3
+Hybrid,Batch,1642.72,0.027379,1.5,150.0,200.0,9.0
+Workload Aware,Batch,957.67,0.015961,3.0,150.0,200.0,46.9
+Threshold,Batch,1804.43,0.030074,1.4,150.0,200.0,0.0
+Rl Batch,Batch,1136.28,0.018938,13.4,150.0,200.0,37.0
+Cost Optimized,Bursty,963.61,0.016060,12.7,150.0,200.0,52.5
+Reliability Optimized,Bursty,1413.65,0.023561,17.3,150.0,200.0,30.2
+Hybrid,Bursty,2026.67,0.033778,2.4,150.0,200.0,0.0
+Workload Aware,Bursty,899.43,0.014990,13.0,150.0,200.0,55.6
+Threshold,Bursty,1866.15,0.031102,2.5,150.0,200.0,7.9
+Rl Bursty,Bursty,459.39,0.007657,12.4,150.0,200.0,77.3

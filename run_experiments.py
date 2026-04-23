@@ -14,7 +14,7 @@ from stable_baselines3 import DQN
 # Import our modules
 from envs.enhanced_cloud_gym import EnhancedCloudCostGym
 from baselines.rule_based import create_agent
-from evaluation.comprehensive_eval import ComprehensiveEvaluator
+from rl.evaluate import ComprehensiveEvaluator
 from rl.reward_analysis import generate_all_reward_plots
 from rl.adaptive_decision import AdaptiveDecisionMaker
 

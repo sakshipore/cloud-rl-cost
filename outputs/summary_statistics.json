@@ -1,0 +1,88 @@
+{
+  "workload_types": [
+    "diurnal",
+    "steady",
+    "batch",
+    "bursty"
+  ],
+  "strategies": {
+    "rl_steady": {
+      "avg_cost": 41.77837242842006,
+      "avg_sla_rate": 0.0036,
+      "avg_latency": 121.31817287157286,
+      "avg_efficiency": 0.41358960278257617,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "threshold": {
+      "avg_cost": 1623.1699112791528,
+      "avg_sla_rate": 0.015483333333333335,
+      "avg_latency": 127.70246563820967,
+      "avg_efficiency": 0.3231324907930397,
+      "cost_std": 245.78316733741647,
+      "sla_rate_std": 0.0066066254623673056
+    },
+    "workload_aware": {
+      "avg_cost": 911.1535902257702,
+      "avg_sla_rate": 0.06366666666666666,
+      "avg_latency": 156.6886172170373,
+      "avg_efficiency": 0.4998098648581123,
+      "cost_std": 32.62220919362812,
+      "sla_rate_std": 0.03942669710290787
+    },
+    "hybrid": {
+      "avg_cost": 1700.1183944007762,
+      "avg_sla_rate": 0.016583333333333335,
+      "avg_latency": 128.70437797622932,
+      "avg_efficiency": 0.32009098782089895,
+      "cost_std": 301.5005048157445,
+      "sla_rate_std": 0.005590940091890729
+    },
+    "rl_diurnal": {
+      "avg_cost": 54.49523050957442,
+      "avg_sla_rate": 0.007066666666666666,
+      "avg_latency": 122.90929747263945,
+      "avg_efficiency": 0.13636552813979755,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "reliability_optimized": {
+      "avg_cost": 1275.5674292840774,
+      "avg_sla_rate": 0.06785,
+      "avg_latency": 187.59271231339574,
+      "avg_efficiency": 0.5059401500179893,
+      "cost_std": 151.5179645186778,
+      "sla_rate_std": 0.06291776599481086
+    },
+    "rl_batch": {
+      "avg_cost": 1136.2797379006415,
+      "avg_sla_rate": 0.13353333333333334,
+      "avg_latency": 191.80479456341615,
+      "avg_efficiency": 0.5056439781251507,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "rl_bursty": {
+      "avg_cost": 459.3934592181197,
+      "avg_sla_rate": 0.12433333333333334,
+      "avg_latency": 194.18519147638014,
+      "avg_efficiency": 0.5463440111249238,
+      "cost_std": 0.0,
+      "sla_rate_std": 0.0
+    },
+    "cost_optimized": {
+      "avg_cost": 712.1651427679642,
+      "avg_sla_rate": 0.049533333333333346,
+      "avg_latency": 157.59102597805023,
+      "avg_efficiency": 0.5556904167649541,
+      "cost_std": 149.52936451667534,
+      "sla_rate_std": 0.04634472282076282
+    }
+  },
+  "best_performers": {
+    "lowest_cost": "rl_steady",
+    "lowest_sla_rate": "rl_steady",
+    "highest_efficiency": "cost_optimized"
+  },
+  "overall_metrics": {}
+}
